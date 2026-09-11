@@ -1,10 +1,783 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Parser Space</title>
-  </head>
-  <body>
-    Coming soon..
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090d">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Parser Space is a project by Ighor July, currently in development.">
+  <title>Parser Space — In Development</title>
+  <style>
+    :root {
+      --bg: #08090d;
+      --panel: rgba(255, 255, 255, 0.055);
+      --panel-strong: rgba(255, 255, 255, 0.085);
+      --line: rgba(255, 255, 255, 0.10);
+      --line-soft: rgba(255, 255, 255, 0.065);
+      --text: #f7f8fb;
+      --muted: #a3a7b3;
+      --muted-2: #767b88;
+      --blue: #8eb8ff;
+      --violet: #b89cff;
+      --mint: #85e7ca;
+      --shadow: 0 28px 100px rgba(0, 0, 0, 0.42);
+      --radius: 24px;
+      --max: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(900px 560px at 50% -70px, rgba(116, 124, 255, 0.14), transparent 64%),
+        radial-gradient(720px 420px at 90% 40%, rgba(115, 226, 203, 0.055), transparent 72%),
+        var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.23;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, black, transparent 76%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      position: relative;
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 84px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 9px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.03)),
+        #101118;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      color: #d9e3ff;
+    }
+
+    .status-mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: #c0c4ce;
+      background: rgba(255, 255, 255, 0.025);
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .status-mini::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 14px rgba(133, 231, 202, 0.55);
+    }
+
+    .hero {
+      min-height: 700px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.07fr) minmax(320px, 0.93fr);
+      gap: 70px;
+      align-items: center;
+      padding: 92px 0 100px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 23px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--violet), var(--blue));
+    }
+
+    h1 {
+      margin: 22px 0 0;
+      max-width: 780px;
+      font-size: clamp(60px, 8vw, 112px);
+      line-height: 0.9;
+      letter-spacing: -0.075em;
+      font-weight: 700;
+    }
+
+    h1 span {
+      display: block;
+      color: transparent;
+      background: linear-gradient(115deg, #ffffff 16%, #cfd8ff 48%, #ac9cff 82%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .lede {
+      max-width: 620px;
+      margin: 30px 0 0;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.52;
+      letter-spacing: -0.015em;
+    }
+
+    .lede strong {
+      color: #e7e9ee;
+      font-weight: 560;
+    }
+
+    .creator-link {
+      color: #edf1ff;
+      text-decoration-color: rgba(184, 156, 255, 0.5);
+      text-underline-offset: 4px;
+      transition: color 180ms ease, text-decoration-color 180ms ease;
+    }
+
+    .creator-link:hover {
+      color: #ffffff;
+      text-decoration-color: rgba(184, 156, 255, 1);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+      color: #eceef3;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 620;
+      letter-spacing: -0.005em;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .button.primary {
+      border-color: rgba(187, 176, 255, 0.24);
+      background: linear-gradient(135deg, rgba(169, 151, 255, 0.20), rgba(111, 150, 255, 0.13));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.075);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .button .arrow {
+      color: #bfc8e8;
+      font-size: 16px;
+      transition: transform 180ms ease;
+    }
+
+    .button:hover .arrow {
+      transform: translateX(3px);
+    }
+
+    .visual {
+      position: relative;
+      min-height: 460px;
+      display: grid;
+      place-items: center;
+      perspective: 1000px;
+    }
+
+    .orbital {
+      position: absolute;
+      width: min(100%, 460px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background:
+        radial-gradient(circle at 50% 50%, rgba(159, 146, 255, 0.09), rgba(159, 146, 255, 0.018) 34%, transparent 65%),
+        repeating-radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 34px);
+      filter: drop-shadow(0 24px 70px rgba(0, 0, 0, 0.4));
+    }
+
+    .orbital::before,
+    .orbital::after {
+      content: "";
+      position: absolute;
+      inset: 9%;
+      border: 1px solid rgba(255, 255, 255, 0.055);
+      border-radius: 50%;
+      transform: rotate(58deg) scaleY(0.35);
+    }
+
+    .orbital::after {
+      inset: 15%;
+      transform: rotate(-28deg) scaleY(0.47);
+      border-color: rgba(151, 171, 255, 0.10);
+    }
+
+    .parser-card {
+      position: relative;
+      z-index: 2;
+      width: min(86%, 380px);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 22px;
+      background: linear-gradient(145deg, rgba(25, 27, 37, 0.94), rgba(13, 14, 20, 0.97));
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transform: rotateY(-7deg) rotateX(3deg);
+    }
+
+    .card-bar {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 0 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .card-label {
+      margin-left: auto;
+      color: #626775;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .code {
+      padding: 24px 22px 26px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      line-height: 1.85;
+      color: #8c92a2;
+    }
+
+    .code-line {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 10px;
+      white-space: nowrap;
+    }
+
+    .ln {
+      color: #454a55;
+      user-select: none;
+    }
+
+    .token-a { color: #c4b5fd; }
+    .token-b { color: #8ec5ff; }
+    .token-c { color: #9ee8d1; }
+    .token-d { color: #e5e7ee; }
+
+    .pulse {
+      position: absolute;
+      right: 8.5%;
+      top: 23%;
+      z-index: 3;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #d9d0ff;
+      box-shadow: 0 0 0 8px rgba(187, 168, 255, 0.07), 0 0 28px rgba(187, 168, 255, 0.55);
+      animation: breathe 3.6s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(0.9); opacity: 0.68; }
+      50% { transform: scale(1.12); opacity: 1; }
+    }
+
+    .section {
+      padding: 92px 0;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .section-kicker {
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 650;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(34px, 4vw, 54px);
+      line-height: 1.06;
+      letter-spacing: -0.045em;
+      font-weight: 650;
+    }
+
+    .section-copy {
+      margin: 24px 0 0;
+      max-width: 690px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .status-panel {
+      margin-top: 54px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: center;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.022)),
+        rgba(12, 13, 18, 0.72);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .status-panel strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .status-panel p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 13px;
+      white-space: nowrap;
+      border-radius: 999px;
+      border: 1px solid rgba(133, 231, 202, 0.16);
+      background: rgba(133, 231, 202, 0.055);
+      color: #bdeedc;
+      font-size: 12px;
+      font-weight: 620;
+    }
+
+    .status-badge::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mint);
+    }
+
+    .explore-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 50px;
+    }
+
+    .explore-card {
+      min-height: 250px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.032);
+      text-decoration: none;
+      transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+    }
+
+    .explore-card::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -90px;
+      top: -100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(150, 156, 255, 0.16), transparent 68%);
+      opacity: 0.68;
+      transition: transform 300ms ease, opacity 300ms ease;
+    }
+
+    .explore-card.apps::after {
+      background: radial-gradient(circle, rgba(133, 231, 202, 0.13), transparent 68%);
+    }
+
+    .explore-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.048);
+    }
+
+    .explore-card:hover::after {
+      transform: scale(1.15);
+      opacity: 1;
+    }
+
+    .card-topline {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted-2);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .card-arrow {
+      font-size: 18px;
+      color: #bdc3d5;
+      transition: transform 180ms ease;
+    }
+
+    .explore-card:hover .card-arrow {
+      transform: translate(3px, -3px);
+    }
+
+    .explore-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+    }
+
+    .explore-copy h3 {
+      margin: 0 0 10px;
+      font-size: 25px;
+      letter-spacing: -0.035em;
+      font-weight: 630;
+    }
+
+    .explore-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    footer {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-top: 1px solid var(--line-soft);
+      color: #6f7480;
+      font-size: 12px;
+    }
+
+    footer a {
+      color: #9ca1ac;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #ffffff;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding-top: 72px;
+      }
+
+      .visual {
+        min-height: 410px;
+      }
+
+      .section-head {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .shell {
+        width: min(100% - 28px, var(--max));
+      }
+
+      .topbar {
+        min-height: 72px;
+      }
+
+      .status-mini {
+        font-size: 0;
+        padding: 8px;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 66px 0 76px;
+      }
+
+      h1 {
+        font-size: clamp(54px, 20vw, 84px);
+      }
+
+      .lede {
+        font-size: 18px;
+      }
+
+      .visual {
+        min-height: 355px;
+      }
+
+      .parser-card {
+        width: 92%;
+        transform: none;
+      }
+
+      .code {
+        padding: 19px 15px 21px;
+        font-size: 10px;
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .status-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .status-badge {
+        width: fit-content;
+      }
+
+      .explore-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .explore-card {
+        min-height: 220px;
+      }
+
+      footer {
+        min-height: 130px;
+        align-items: flex-start;
+        justify-content: center;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell topbar">
+    <a class="brand" href="#top" aria-label="Parser Space home">
+      <span class="brand-mark" aria-hidden="true">{ }</span>
+      <span>Parser Space</span>
+    </a>
+    <span class="status-mini">In development</span>
+  </header>
+
+  <main id="top">
+    <section class="shell hero" aria-labelledby="page-title">
+      <div>
+        <div class="eyebrow">A new project in progress</div>
+        <h1 id="page-title">Parser <span>Space</span></h1>
+        <p class="lede">
+          Parser Space is a project by
+          <a class="creator-link" href="https://reverseeverything.com/ighor/?utm_source=parserspace" target="_blank" rel="noopener noreferrer">Ighor July</a>,
+          currently in development. More details will appear here as the project takes shape.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="https://reverseeverything.com/?utm_source=parserspace" target="_blank" rel="noopener noreferrer">
+            Visit the blog <span class="arrow" aria-hidden="true">→</span>
+          </a>
+          <a class="button" href="https://reverseeverything.com/apps/?utm_source=parserspace" target="_blank" rel="noopener noreferrer">
+            See my apps <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="visual" aria-hidden="true">
+        <div class="orbital"></div>
+        <div class="parser-card">
+          <div class="card-bar">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="card-label">parser.space</span>
+          </div>
+          <div class="code">
+            <div class="code-line"><span class="ln">01</span><span><span class="token-a">project</span> <span class="token-d">{</span></span></div>
+            <div class="code-line"><span class="ln">02</span><span>&nbsp;&nbsp;<span class="token-b">name</span>: <span class="token-c">"Parser Space"</span>,</span></div>
+            <div class="code-line"><span class="ln">03</span><span>&nbsp;&nbsp;<span class="token-b">by</span>: <span class="token-c">"Ighor July"</span>,</span></div>
+            <div class="code-line"><span class="ln">04</span><span>&nbsp;&nbsp;<span class="token-b">status</span>: <span class="token-c">"in development"</span>,</span></div>
+            <div class="code-line"><span class="ln">05</span><span>&nbsp;&nbsp;<span class="token-b">state</span>: <span class="token-a">evolving</span></span></div>
+            <div class="code-line"><span class="ln">06</span><span><span class="token-d">}</span></span></div>
+          </div>
+        </div>
+        <div class="pulse"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="section-head">
+          <div class="section-kicker">About the project</div>
+          <div>
+            <h2>Built deliberately.<br>Revealed when ready.</h2>
+            <p class="section-copy">
+              Parser Space is still being designed and developed. This page is its home while the project evolves, with more information to come as it gets closer to release.
+            </p>
+          </div>
+        </div>
+
+        <div class="status-panel">
+          <div>
+            <strong>Current status</strong>
+            <p>Work is in progress. The project is not publicly released yet.</p>
+          </div>
+          <span class="status-badge">In development</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="explore">
+      <div class="shell">
+        <div class="section-head">
+          <div class="section-kicker">Explore more</div>
+          <div>
+            <h2>While Parser Space is being built.</h2>
+            <p class="section-copy">
+              Visit Reverse Everything for my writing, investigations, and projects, or take a look at the apps I have already made.
+            </p>
+          </div>
+        </div>
+
+        <div class="explore-grid">
+          <a class="explore-card" href="https://reverseeverything.com/?utm_source=parserspace" target="_blank" rel="noopener noreferrer">
+            <div class="card-topline">
+              <span>Reverse Everything</span>
+              <span class="card-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div class="explore-copy">
+              <h3>Visit my blog</h3>
+              <p>Read interviews, investigations, reverse engineering stories, and other things I find worth digging into.</p>
+            </div>
+          </a>
+
+          <a class="explore-card apps" href="https://reverseeverything.com/apps/?utm_source=parserspace" target="_blank" rel="noopener noreferrer">
+            <div class="card-topline">
+              <span>Apps by Ighor July</span>
+              <span class="card-arrow" aria-hidden="true">↗</span>
+            </div>
+            <div class="explore-copy">
+              <h3>Check out my apps</h3>
+              <p>Explore software I have built and released, including projects designed to solve problems the way I want them solved.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <span>© <span id="year">2026</span> Ighor July. Parser Space.</span>
+    <a href="https://reverseeverything.com/ighor/?utm_source=parserspace" target="_blank" rel="noopener noreferrer">About Ighor July ↗</a>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
 </html>
