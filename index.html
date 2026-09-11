@@ -7,6 +7,8 @@
   <meta name="color-scheme" content="dark">
   <meta name="description" content="Parser Space is a project by Ighor July, currently in development.">
   <title>Parser Space — In Development</title>
+  <script defer data-domain="parserspace.com" src="https://analytics.parserspace.com/js/script.outbound-links.js"></script>
+  <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
   <style>
     :root {
       --bg: #08090d;
@@ -456,13 +458,13 @@
     }
 
     .explore-card {
-      min-height: 250px;
+      min-height: 205px;
       position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 20px;
       overflow: hidden;
-      padding: 28px;
+      padding: 26px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.032);
@@ -523,7 +525,7 @@
     .explore-copy {
       position: relative;
       z-index: 1;
-      max-width: 420px;
+      max-width: 470px;
     }
 
     .explore-copy h3 {
@@ -538,6 +540,49 @@
       color: var(--muted);
       font-size: 14px;
       line-height: 1.6;
+    }
+
+    .card-meta {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .card-meta span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.035);
+      color: #bec3cf;
+      font-size: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .card-bottom {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      color: #dfe4f0;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .card-bottom small {
+      color: var(--muted-2);
+      font-size: 12px;
+      font-weight: 500;
     }
 
     footer {
@@ -635,7 +680,9 @@
       }
 
       .explore-card {
-        min-height: 220px;
+        min-height: 190px;
+        gap: 18px;
+        padding: 22px;
       }
 
       footer {
@@ -753,6 +800,15 @@
             <div class="explore-copy">
               <h3>Visit my blog</h3>
               <p>Read interviews, investigations, reverse engineering stories, and other things I find worth digging into.</p>
+              <div class="card-meta">
+                <span>Writing</span>
+                <span>Investigations</span>
+                <span>Reverse engineering</span>
+              </div>
+            </div>
+            <div class="card-bottom">
+              <span>Open Reverse Everything</span>
+              <small>Articles and notes ↗</small>
             </div>
           </a>
 
@@ -764,6 +820,15 @@
             <div class="explore-copy">
               <h3>Check out my apps</h3>
               <p>Explore software I have built and released, including projects designed to solve problems the way I want them solved.</p>
+              <div class="card-meta">
+                <span>Released projects</span>
+                <span>Tools</span>
+                <span>Experiments</span>
+              </div>
+            </div>
+            <div class="card-bottom">
+              <span>Browse the apps collection</span>
+              <small>See what is already live ↗</small>
             </div>
           </a>
         </div>
